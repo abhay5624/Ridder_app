@@ -23,6 +23,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class DriverServiceImpl implements DriverService {
@@ -82,9 +86,19 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
+    @Transactional
     public RideDto endRide(Long rideId) {
-
-        return null;
+        Ride ride = rideService.getRideById(rideId);
+        Driver driver = getCurrentDriver();
+        if(!ride.getDriver().equals(driver))
+            throw new DriverNotAuthorizedException("driver not matched");
+        if (!ride.getRideStatus().equals(RideStatus.ONGOING))
+            throw new RuntimeException("Ride status is not ONGOING");
+        ride.setEndedAt(LocalDateTime.now());
+        Ride savedRid = rideService.updateRideStatus(ride,RideStatus.ENDED);
+        updateDriverAvailability(driver.getId(),true);
+        paymentService.processPayment(ride);
+        return modelMapper.map(savedRid,RideDto.class);
     }
 
     @Override

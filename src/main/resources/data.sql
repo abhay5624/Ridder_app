@@ -1,4 +1,4 @@
-INSERT INTO app_user (name, email, password) VALUES
+INSERT INTO app_users (name, email, password) VALUES
 ('Aarav Sharma', 'aarav@gmail.com', 'Password'),
 ('Vivaan Khanna', 'vivaan.khanna@example.com', '$2a$10$examplePasswordHash2'),
 ('Aditya Verma', 'aditya.verma@example.com', '$2a$10$examplePasswordHash3'),
@@ -40,7 +40,8 @@ INSERT INTO app_user (name, email, password) VALUES
 ('Seema Rao', 'seema.rao@example.com', '$2a$10$examplePasswordHash39'),
 ('Tarun Sharma', 'tarun.sharma@example.com', '$2a$10$examplePasswordHash40');
 
-INSERT INTO user_roles (user_id, roles) VALUES
+INSERT INTO user_entity_roles (user_entity_id, roles)
+VALUES
 (1, 'RIDER'),
 (2, 'RIDER'),
 (2, 'DRIVER'),
@@ -121,7 +122,7 @@ INSERT INTO user_roles (user_id, roles) VALUES
 (40, 'RIDER'),
 (40, 'DRIVER');
 
-INSERT INTO rider (id, user_id, rating) VALUES
+INSERT INTO ridder (id, user_id, rating) VALUES
 (1, 1, 4.9);
 
 INSERT INTO driver (id, user_id, rating, available, current_location) VALUES
@@ -164,4 +165,3 @@ INSERT INTO driver (id, user_id, rating, available, current_location) VALUES
 (38, 38, 4.4, true, ST_GeomFromText('POINT(77.2475 28.6439)', 4326)),
 (39, 39, 4.7, true, ST_GeomFromText('POINT(77.2485 28.6459)', 4326)),
 (40, 40, 4.8, true, ST_GeomFromText('POINT(77.2495 28.6479)', 4326));
-

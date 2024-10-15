@@ -6,6 +6,7 @@ import com.Travel.abhay.RidderApp.RidderAPP.entities.Payment;
 import com.Travel.abhay.RidderApp.RidderAPP.entities.Ridder;
 import com.Travel.abhay.RidderApp.RidderAPP.entities.enums.PaymentStatus;
 import com.Travel.abhay.RidderApp.RidderAPP.entities.enums.TransactionMethod;
+import com.Travel.abhay.RidderApp.RidderAPP.repositories.PaymentRepo;
 import com.Travel.abhay.RidderApp.RidderAPP.services.PaymentService;
 import com.Travel.abhay.RidderApp.RidderAPP.services.WalletService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class WalletPaymentStrategy implements PaymentStrategy {
 
     private final WalletService walletService;
-    private final PaymentService paymentService;
+    private final PaymentRepo paymentRepo;
     @Override
     @Transactional
     public void processPayment(Payment payment) {
@@ -29,7 +30,8 @@ public class WalletPaymentStrategy implements PaymentStrategy {
         double driverCut = payment.getAmount()*(1 - PLATFORM_COMISSION);
 
         walletService.addMoneyToWallet(driver.getUser(),driverCut,null,payment.getRide(), TransactionMethod.RIDE);
-        paymentService.updatePaymentStatus(payment, PaymentStatus.CONFIRMED);
+        payment.setPaymentStatus(PaymentStatus.CONFIRMED);
+        paymentRepo.save(payment);
 
     }
 }

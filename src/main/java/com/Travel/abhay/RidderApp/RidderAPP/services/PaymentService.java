@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface PaymentService {
-    void processPayment(Payment payment);
+    void processPayment(Ride Ride);
 
     Payment createNewPayment(Ride ride);
 

@@ -16,7 +16,8 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepo paymentRepo;
     private final PaymentStrategyManager paymentStrategyManager;
     @Override
-    public void processPayment(Payment payment) {
+    public void processPayment(Ride ride) {
+        Payment payment = paymentRepo.findByRide(ride);
         paymentStrategyManager.paymentStrategy(payment.getPaymentMethod()).processPayment(payment);
     }
 
