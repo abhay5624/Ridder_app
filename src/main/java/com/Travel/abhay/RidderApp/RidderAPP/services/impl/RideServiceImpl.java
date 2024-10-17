@@ -1,14 +1,12 @@
 package com.Travel.abhay.RidderApp.RidderAPP.services.impl;
 
 import com.Travel.abhay.RidderApp.RidderAPP.dto.RideRequestDto;
-import com.Travel.abhay.RidderApp.RidderAPP.entities.Driver;
-import com.Travel.abhay.RidderApp.RidderAPP.entities.Ridder;
-import com.Travel.abhay.RidderApp.RidderAPP.entities.Ride;
-import com.Travel.abhay.RidderApp.RidderAPP.entities.RideRequest;
+import com.Travel.abhay.RidderApp.RidderAPP.entities.*;
 import com.Travel.abhay.RidderApp.RidderAPP.entities.enums.RideRequestStatus;
 import com.Travel.abhay.RidderApp.RidderAPP.entities.enums.RideStatus;
 import com.Travel.abhay.RidderApp.RidderAPP.exceptions.ResourceNotFoundException;
 import com.Travel.abhay.RidderApp.RidderAPP.repositories.RideRepo;
+import com.Travel.abhay.RidderApp.RidderAPP.services.PaymentService;
 import com.Travel.abhay.RidderApp.RidderAPP.services.RideRequestService;
 import com.Travel.abhay.RidderApp.RidderAPP.services.RideService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +26,7 @@ public class RideServiceImpl implements RideService {
     private final RideRequestService rideRequestService;
     private final ModelMapper modelMapper;
     private final RideRepo rideRepo;
-
+    private final PaymentService paymentService;
     @Override
     public void matchWithDriver(RideRequestDto rideRequestDto) {
 
@@ -45,7 +43,7 @@ public class RideServiceImpl implements RideService {
         ride.setOtp(generateOtp());
         ride.setId(null);
         rideRequestService.update(rideRequest);
-
+        paymentService.createNewPayment(ride);
         return rideRepo.save(ride);
     }
 

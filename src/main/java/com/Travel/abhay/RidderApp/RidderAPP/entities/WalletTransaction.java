@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class WalletTransaction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long Id;
 
     private Double amount;

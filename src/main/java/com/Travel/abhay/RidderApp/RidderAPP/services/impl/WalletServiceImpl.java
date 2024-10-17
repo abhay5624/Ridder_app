@@ -7,7 +7,9 @@ import com.Travel.abhay.RidderApp.RidderAPP.entities.WalletTransaction;
 import com.Travel.abhay.RidderApp.RidderAPP.entities.enums.TransactionMethod;
 import com.Travel.abhay.RidderApp.RidderAPP.entities.enums.TransactionType;
 import com.Travel.abhay.RidderApp.RidderAPP.exceptions.ResourceNotFoundException;
+import com.Travel.abhay.RidderApp.RidderAPP.repositories.UserRepo;
 import com.Travel.abhay.RidderApp.RidderAPP.repositories.WalletRepo;
+import com.Travel.abhay.RidderApp.RidderAPP.services.UserService;
 import com.Travel.abhay.RidderApp.RidderAPP.services.WalletService;
 import com.Travel.abhay.RidderApp.RidderAPP.services.WalletTransectionService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class WalletServiceImpl implements WalletService {
     private final WalletRepo walletRepo;
     private final ModelMapper modelMapper;
+    private final UserService userService;
     private final WalletTransectionService walletTransectionService;
     @Override
     @Transactional
@@ -39,6 +42,24 @@ public class WalletServiceImpl implements WalletService {
         walletTransectionService.createNewWalletTransaction(walletTransection);
         return walletRepo.save(wallet);
     }
+
+    @Override
+    public void addMoneyFromBank(Long userId, Double amount, String transectionId) {
+        UserEntity user = userService.findUserById(userId);
+        Wallet wallet = walletRepo.findByUser(user);
+        double prevAmount = wallet.getBalance();
+        wallet.setBalance(prevAmount+amount);
+        walletRepo.save(wallet);
+        WalletTransaction walletTransection  = WalletTransaction
+                .builder()
+                .transactionId(transectionId)
+                .amount(amount)
+                .transactionType(TransactionType.CREDIT)
+                .transactionMethod(TransactionMethod.BANKING)
+                .wallet(wallet)
+                .build();
+        walletTransectionService.createNewWalletTransaction(walletTransection);
+     }
 
     @Override
     public void withDrawAllMoneyFromWallet() {

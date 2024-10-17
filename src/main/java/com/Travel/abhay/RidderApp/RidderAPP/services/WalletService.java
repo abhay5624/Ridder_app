@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 public interface WalletService {
     Wallet addMoneyToWallet(UserEntity user, Double amount, String transectionId, Ride ride, TransactionMethod transactionMethod) ;
 
+    void addMoneyFromBank(Long userId,Double amount,String transectionId);
+
     void withDrawAllMoneyFromWallet();
 
     Wallet findWalletById(Long walletId);

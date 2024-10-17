@@ -2,6 +2,7 @@ package com.Travel.abhay.RidderApp.RidderAPP.advices;
 
 
 import com.Travel.abhay.RidderApp.RidderAPP.exceptions.*;
+import com.razorpay.RazorpayException;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -79,6 +80,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RiderNotAuthorizedException.class)
     public ResponseEntity<ApiResponse<?>> handleRiderNotAuthorizedException(Exception exception) {
+        ApiError apiError = ApiError.builder()
+                .status(HttpStatus.BAD_REQUEST)
+                .message(exception.getMessage())
+                .build();
+        return buildErrorResponseEntity(apiError);
+    }
+    @ExceptionHandler(RazorpayException.class)
+    public ResponseEntity<ApiResponse<?>> handleRazorpayException(Exception exception) {
         ApiError apiError = ApiError.builder()
                 .status(HttpStatus.BAD_REQUEST)
                 .message(exception.getMessage())
