@@ -1,6 +1,6 @@
 package com.Travel.abhay.RidderApp.RidderAPP.services.impl;
 
-import com.Travel.abhay.RidderApp.RidderAPP.dto.RidderDto;
+import com.Travel.abhay.RidderApp.RidderAPP.dto.RiderDto;
 import com.Travel.abhay.RidderApp.RidderAPP.dto.SignupDto;
 import com.Travel.abhay.RidderApp.RidderAPP.dto.UserDto;
 import com.Travel.abhay.RidderApp.RidderAPP.entities.UserEntity;
@@ -47,7 +47,7 @@ public class AuthServiceImplement implements AuthService {
     }
 
     @Override
-    public RidderDto OnBoardNewDriver(Long userId) {
+    public RiderDto OnBoardNewDriver(Long userId) {
         return null;
     }
 }

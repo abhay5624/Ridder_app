@@ -31,7 +31,7 @@ public class Ride {
     private LocalDateTime createdTime;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private Ridder ridder;
+    private Rider rider;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Driver driver;

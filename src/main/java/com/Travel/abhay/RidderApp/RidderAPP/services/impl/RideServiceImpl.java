@@ -55,7 +55,7 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
-    public Page<Ride> getAllRideOfRidder(Ridder rider, PageRequest pageRequest) {
+    public Page<Ride> getAllRideOfRidder(Rider rider, PageRequest pageRequest) {
         return rideRepo.findByRidder(rider,pageRequest);
     }
 

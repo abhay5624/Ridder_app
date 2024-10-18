@@ -1,10 +1,7 @@
  package com.Travel.abhay.RidderApp.RidderAPP.services.impl;
 
  import com.Travel.abhay.RidderApp.RidderAPP.Strategies.RideStrategyManager;
- import com.Travel.abhay.RidderApp.RidderAPP.dto.DriverDto;
- import com.Travel.abhay.RidderApp.RidderAPP.dto.RidderDto;
- import com.Travel.abhay.RidderApp.RidderAPP.dto.RideDto;
- import com.Travel.abhay.RidderApp.RidderAPP.dto.RideRequestDto;
+ import com.Travel.abhay.RidderApp.RidderAPP.dto.*;
  import com.Travel.abhay.RidderApp.RidderAPP.entities.*;
  import com.Travel.abhay.RidderApp.RidderAPP.entities.enums.RideRequestStatus;
  import com.Travel.abhay.RidderApp.RidderAPP.entities.enums.RideStatus;
@@ -42,10 +39,10 @@ public class RidderServiceImpl implements RiderService{
      @Override
      @Transactional
      public RideRequestDto requestRide(RideRequestDto rideRequestDto) {
-         Ridder rider = getCurrentRidder();
+         Rider rider = getCurrentRidder();
          RideRequest rideRequest = modelMapper.map(rideRequestDto, RideRequest.class);
          rideRequest.setRideRequestStatus(RideRequestStatus.PENDING);
-         rideRequest.setRidder(rider);
+         rideRequest.setRider(rider);
          Double fare = strategyManager.rideFareCalculateStategy().calculateFare(rideRequest);
          rideRequest.setFare(fare);
          List<Driver> drivers = strategyManager.driverMatchingStrategy(rider.getRating()).findMatchingDrivers(rideRequest);
@@ -58,9 +55,9 @@ public class RidderServiceImpl implements RiderService{
 
     @Override
     public RideDto cancelledRide(Long rideId) {
-         Ridder ridder = getCurrentRidder();
+         Rider rider = getCurrentRidder();
          Ride ride = rideService.getRideById(rideId);
-         if(!ridder.equals(ride.getRidder()))
+         if(!rider.equals(ride.getRider()))
             throw new RiderNotAuthorizedException("Rider does not own Ride");
         if(!ride.getRideStatus().equals(RideStatus.CONFIRMED))
             throw new RuntimeException("Ride can't be cancelled invalid status "+ ride.getRideStatus());
@@ -72,28 +69,28 @@ public class RidderServiceImpl implements RiderService{
     }
 
     @Override
-    public DriverDto rateRidder(Long rideId, Integer rating) {
+    public DriverDto rateDriver(RatingDto ratingDto) {
         return null;
     }
 
     @Override
-    public RidderDto getMyProfile() {
-        Ridder currentRidder = getCurrentRidder();
-        return modelMapper.map(currentRidder,RidderDto.class);
+    public RiderDto getMyProfile() {
+        Rider currentRider = getCurrentRidder();
+        return modelMapper.map(currentRider, RiderDto.class);
 
     }
 
     @Override
     public Page<RideDto> getAllMyRide(PageRequest pageRequest) {
-        Ridder currentRidder = getCurrentRidder();
-        return rideService.getAllRideOfRidder(currentRidder,pageRequest).map(
+        Rider currentRider = getCurrentRidder();
+        return rideService.getAllRideOfRidder(currentRider,pageRequest).map(
                 ride -> modelMapper.map(ride,RideDto.class)
         );
      }
 
      @Override
-     public Ridder createNewRider(UserEntity userEntity) {
-         Ridder rider = Ridder
+     public Rider createNewRider(UserEntity userEntity) {
+         Rider rider = Rider
                  .builder()
                  .user(userEntity)
                  .rating(0.0)
@@ -103,7 +100,7 @@ public class RidderServiceImpl implements RiderService{
      }
 
      @Override
-     public Ridder getCurrentRidder() {
-         return ridderRepo.findById(1L).orElseThrow(() -> new ResourceNotFoundException("Ridder with id 1 not exist"));
+     public Rider getCurrentRidder() {
+         return ridderRepo.findById(1L).orElseThrow(() -> new ResourceNotFoundException("Rider with id 1 not exist"));
      }
  }

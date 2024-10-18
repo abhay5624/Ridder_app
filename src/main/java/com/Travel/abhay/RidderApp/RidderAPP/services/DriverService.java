@@ -2,7 +2,7 @@ package com.Travel.abhay.RidderApp.RidderAPP.services;
 
 import com.Travel.abhay.RidderApp.RidderAPP.dto.DriverDto;
 import com.Travel.abhay.RidderApp.RidderAPP.dto.DriverRidedto;
-import com.Travel.abhay.RidderApp.RidderAPP.dto.RidderDto;
+import com.Travel.abhay.RidderApp.RidderAPP.dto.RiderDto;
 import com.Travel.abhay.RidderApp.RidderAPP.dto.RideDto;
 import com.Travel.abhay.RidderApp.RidderAPP.entities.Driver;
 import org.springframework.data.domain.Page;
@@ -18,7 +18,7 @@ public interface DriverService {
 
     RideDto endRide(Long rideId);
 
-    RidderDto rateRidder(Long rideId,Integer rating);
+    RiderDto rateRidder(Long rideId, Integer rating);
 
     DriverDto getMyProfile();
 

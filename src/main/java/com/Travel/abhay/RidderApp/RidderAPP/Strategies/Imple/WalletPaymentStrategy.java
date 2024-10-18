@@ -3,11 +3,10 @@ package com.Travel.abhay.RidderApp.RidderAPP.Strategies.Imple;
 import com.Travel.abhay.RidderApp.RidderAPP.Strategies.PaymentStrategy;
 import com.Travel.abhay.RidderApp.RidderAPP.entities.Driver;
 import com.Travel.abhay.RidderApp.RidderAPP.entities.Payment;
-import com.Travel.abhay.RidderApp.RidderAPP.entities.Ridder;
+import com.Travel.abhay.RidderApp.RidderAPP.entities.Rider;
 import com.Travel.abhay.RidderApp.RidderAPP.entities.enums.PaymentStatus;
 import com.Travel.abhay.RidderApp.RidderAPP.entities.enums.TransactionMethod;
 import com.Travel.abhay.RidderApp.RidderAPP.repositories.PaymentRepo;
-import com.Travel.abhay.RidderApp.RidderAPP.services.PaymentService;
 import com.Travel.abhay.RidderApp.RidderAPP.services.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,9 +22,9 @@ public class WalletPaymentStrategy implements PaymentStrategy {
     @Transactional
     public void processPayment(Payment payment) {
         Driver driver = payment.getRide().getDriver();
-        Ridder ridder = payment.getRide().getRidder();
+        Rider rider = payment.getRide().getRider();
 
-        walletService.deductMoneyFromWallet(ridder.getUser(),payment.getAmount(),null,payment.getRide(), TransactionMethod.RIDE);
+        walletService.deductMoneyFromWallet(rider.getUser(),payment.getAmount(),null,payment.getRide(), TransactionMethod.RIDE);
 
         double driverCut = payment.getAmount()*(1 - PLATFORM_COMISSION);
 

@@ -2,7 +2,7 @@ package com.Travel.abhay.RidderApp.RidderAPP.services.impl;
 
 import com.Travel.abhay.RidderApp.RidderAPP.dto.DriverDto;
 import com.Travel.abhay.RidderApp.RidderAPP.dto.DriverRidedto;
-import com.Travel.abhay.RidderApp.RidderAPP.dto.RidderDto;
+import com.Travel.abhay.RidderApp.RidderAPP.dto.RiderDto;
 import com.Travel.abhay.RidderApp.RidderAPP.dto.RideDto;
 import com.Travel.abhay.RidderApp.RidderAPP.entities.Driver;
 import com.Travel.abhay.RidderApp.RidderAPP.entities.Ride;
@@ -102,7 +102,7 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public RidderDto rateRidder(Long rideId, Integer rating) {
+    public RiderDto rateRidder(Long rideId, Integer rating) {
         return null;
     }
 
