@@ -9,6 +9,7 @@ import com.Travel.abhay.RidderApp.RidderAPP.entities.enums.TransactionType;
 import com.Travel.abhay.RidderApp.RidderAPP.exceptions.ResourceNotFoundException;
 import com.Travel.abhay.RidderApp.RidderAPP.repositories.UserRepo;
 import com.Travel.abhay.RidderApp.RidderAPP.repositories.WalletRepo;
+import com.Travel.abhay.RidderApp.RidderAPP.repositories.WalletTransectionRepo;
 import com.Travel.abhay.RidderApp.RidderAPP.services.UserService;
 import com.Travel.abhay.RidderApp.RidderAPP.services.WalletService;
 import com.Travel.abhay.RidderApp.RidderAPP.services.WalletTransectionService;
@@ -39,12 +40,13 @@ public class WalletServiceImpl implements WalletService {
                 .transactionMethod(transactionMethod)
                 .wallet(wallet)
                 .build();
+        wallet.getWalletTransactions().add(walletTransection);
         walletTransectionService.createNewWalletTransaction(walletTransection);
         return walletRepo.save(wallet);
     }
 
     @Override
-    public void addMoneyFromBank(Long userId, Double amount, String transectionId) {
+    public Wallet addMoneyFromBank(Long userId, Double amount, String transectionId) {
         UserEntity user = userService.findUserById(userId);
         Wallet wallet = walletRepo.findByUser(user);
         double prevAmount = wallet.getBalance();
@@ -59,7 +61,9 @@ public class WalletServiceImpl implements WalletService {
                 .wallet(wallet)
                 .build();
         walletTransectionService.createNewWalletTransaction(walletTransection);
-     }
+        wallet.getWalletTransactions().add(walletTransection);
+        return walletRepo.save(wallet);
+    }
 
     @Override
     public void withDrawAllMoneyFromWallet() {
@@ -97,9 +101,10 @@ public class WalletServiceImpl implements WalletService {
                 .transactionMethod(transactionMethod)
                 .wallet(wallet)
                 .build();
+
+        wallet.getWalletTransactions().add(walletTransection);
+
         walletTransectionService.createNewWalletTransaction(walletTransection);
-
-
         return walletRepo.save(wallet);
     }
 }

@@ -31,7 +31,6 @@ public class WalletPaymentStrategy implements PaymentStrategy {
 
         walletService.addMoneyToWallet(driver.getUser(),driverCut,null,payment.getRide(), TransactionMethod.RIDE);
         payment.setPaymentStatus(PaymentStatus.CONFIRMED);
-        payment.setId(null);
         paymentRepo.save(payment);
 
     }
